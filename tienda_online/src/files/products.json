@@ -1,0 +1,20 @@
+[
+	{
+		"id": 1,
+		"title": "mouse",
+		"description": "inalambrico",
+		"code": 23,
+		"price": 5000,
+		"stock": 2,
+		"category": "perifericos"
+	},
+	{
+		"id": 2,
+		"title": "monitor",
+		"description": "ips",
+		"code": 11,
+		"price": 20000,
+		"stock": 3,
+		"category": "perifericos"
+	}
+]
