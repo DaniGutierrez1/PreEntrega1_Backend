@@ -26,8 +26,19 @@ export class ProductManager{
     };
 
     async getByID(id){
-        // Devuelve el producto que cumple con el id recibido
-    }
+        try {
+            if(this.fileExist()){
+              const content = await fs.promises.readFile(this.path,"utf-8");
+              const products = JSON.parse(content);
+              const productSearch= products.find(product=>product.id == id)
+              return productSearch
+            }else{
+                throw new Error("No se pueden obtener los productos")
+            }    
+        } catch (error) {
+            throw error;
+        }
+    };
 
     async save(product){
         try {
@@ -51,5 +62,22 @@ export class ProductManager{
         } catch (error) {
             throw error;
         }
-    }
+    };
+
+    async delete(id){
+        try {
+            if(this.fileExist()){
+                const content = await fs.promises.readFile(this.path,"utf-8")
+                const products = JSON.parse(content)
+                const productEliminated=products.find(product=> product.id == id);
+                
+                await fs.promises.unlink(this.path,JSON.stringify(productEliminated,null,'\t'))
+
+            }else{
+                throw new Error("No se puede ralizar la eliminacion")
+            }
+        } catch (error) {
+            throw error
+        }
+    };
 }

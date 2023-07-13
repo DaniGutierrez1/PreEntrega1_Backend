@@ -20,7 +20,8 @@ router.get("/",async(req,res)=>{
         const limit = req.query.limit;
         const products = await productService.get();
         if(limit){
-            // Mostrar los productos de acuerdo al limite
+            
+            res.json({status:"succes",data:products.lenght==limit})
         }else{
             
             res.json({status:"succes", data:products})
@@ -31,7 +32,21 @@ router.get("/",async(req,res)=>{
 });
 
 
-router.get("/:pid",(req,res)=>{});
+router.get("/:pid",async (req,res)=>{
+    try {
+        const id = req.body;
+        const productSearch = await productService.getByID(id);
+        if(id){
+            
+            res.json({status:"succes",data:productSearch, message:"El producto ha sido encontrado"})
+        }else{
+            
+            res.json({status:"error", message:"El id no existe"})
+        }
+    } catch (error) {
+        res.json({status:"error", message:error.message});
+    }
+});
 
 
 router.post("/",validateFields,async(req,res)=>{
@@ -46,14 +61,24 @@ router.post("/",validateFields,async(req,res)=>{
     
 });
 
-router.put("/:pid",validateFields,(req,res)=>{
-    const productInfo = req.body;
-
+router.put("/:pid",validateFields,async(req,res)=>{
+    
+    
     //Actualizar producto
-
+    
 })
 
-router.delete("/:pid",(req,res)=>{});
+router.delete("/:pid",async(req,res)=>{
+    try {
+        const id = req.body
+        const productEliminated = await productService.delete(id)
+        res.json({status:"succes",message:"Producto eliminado"})
+        
+    } catch (error) {
+        res.json({status:"error", message:error.message})
+    }
+
+});
 
 
 export { router as productsRouter} 
